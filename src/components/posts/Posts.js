@@ -5,34 +5,12 @@ import Post from "./post/Post";
 import postsStyles from "./Posts.module.css";
 
 function Posts(props) {
-  const [postAuthor, setPostAuthor] = useState("Ravi Akella");
-  const [postContent, setPostContent] = useState(
-    "This is my first Post on React App"
-  );
+  const [posts, setPosts] = useState([]);
 
-  function onPostContentChangeHandler(event) {
-    setPostContent(event.target.value);
+  function addNewPostHandler(postData) {
+    // setPosts([postData, ...posts]); //or
+    setPosts((existingPosts) => [postData, ...posts]);
   }
-
-  function onPostAuthorChangeHandler(event) {
-    setPostAuthor(event.target.value);
-  }
-
-  /*
-  //Approach 2
-  let modalContent;
-
-  if (showModal) {
-    modalContent = (
-      <Modal showModal={showHideModalHandler}>
-        <NewPost
-          onPostContentChange={onPostContentChangeHandler}
-          onPostAuthorChange={onPostAuthorChangeHandler}
-        />
-      </Modal>
-    );
-  } */
-
   return (
     <React.Fragment>
       {
@@ -40,31 +18,35 @@ function Posts(props) {
         props.showModal ? (
           <Modal showModal={props.closeModal}>
             <NewPost
-              onPostContentChange={onPostContentChangeHandler}
-              onPostAuthorChange={onPostAuthorChangeHandler}
+              onCancel={props.closeModal}
+              onAddNewPost={addNewPostHandler}
             />
           </Modal>
         ) : null
         /* Approach 2 */
-        /*{modalContent} */
-        /* Approach 3*/
-        /* showModal && (
-          <Modal showModal={showHideModalHandler}>
-            <NewPost
-              onPostContentChange={onPostContentChangeHandler}
-              onPostAuthorChange={onPostAuthorChangeHandler}
-            />
+        /* props.showModal && (
+          <Modal showModal={props.closeModal}>
+            <NewPost onCancel={props.closeModal} />
           </Modal>
         ) */
       }
-
-      <ul className={postsStyles.posts}>
-        <Post userName={postAuthor} storyContent={postContent} />
-        <Post
-          userName="Vijay Akella"
-          storyContent="This is my first Post on React App"
-        />
-      </ul>
+      {posts.length > 0 && (
+        <ul className={postsStyles.posts}>
+          {posts.map((post, index) => (
+            <Post
+              key={index * 31}
+              postAuthor={post.postAuthor}
+              postContent={post.postContent}
+            />
+          ))}
+        </ul>
+      )}
+      {posts.length === 0 && (
+        <div className={postsStyles.noPosts}>
+          <h2>No Posts yet!</h2>
+          <p>Start adding some posts</p>
+        </div>
+      )}
     </React.Fragment>
   );
 }
