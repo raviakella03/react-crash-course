@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Modal from "../common/modal/Modal";
 import NewPost from "../newPost/NewPost";
 import Post from "./post/Post";
 import postsStyles from "./Posts.module.css";
@@ -19,10 +20,12 @@ function Posts() {
 
   return (
     <React.Fragment>
-      <NewPost
-        onPostContentChange={onPostContentChangeHandler}
-        onPostAuthorChange={onPostAuthorChangeHandler}
-      />
+      <Modal>
+        <NewPost
+          onPostContentChange={onPostContentChangeHandler}
+          onPostAuthorChange={onPostAuthorChangeHandler}
+        />
+      </Modal>
       <ul className={postsStyles.posts}>
         <Post userName={postAuthor} storyContent={postContent} />
         <Post
