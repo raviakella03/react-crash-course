@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import MainHeader from "./components/common/modal/mainHeader/MainHeader";
+import MainHeader from "./components/common/mainHeader/MainHeader";
 import Posts from "./components/posts/Posts";
 
 function App() {
